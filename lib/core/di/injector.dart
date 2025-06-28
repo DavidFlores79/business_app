@@ -13,7 +13,7 @@ final sl = GetIt.instance;
 Future<void> initDependencies() async {
   // Aquí puedes registrar cubits/repositorios/etc
   // Core
-  sl.registerLazySingleton(() => DioClient());
+  sl.registerLazySingleton(() => DioClient(sl<TokenStorageService>()));
   sl.registerLazySingleton<TokenStorageService>(
     () => TokenStorageServiceImpl(),
   );
