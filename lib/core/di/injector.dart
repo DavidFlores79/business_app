@@ -6,6 +6,7 @@ import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/login_usecase.dart';
 import '../../features/auth/presentation/bloc/login_cubit.dart';
 import '../network/dio_client.dart';
+import '../services/local_storage_service.dart';
 
 final sl = GetIt.instance;
 
@@ -13,6 +14,9 @@ Future<void> initDependencies() async {
   // Aquí puedes registrar cubits/repositorios/etc
   // Core
   sl.registerLazySingleton(() => DioClient());
+  sl.registerLazySingleton<TokenStorageService>(
+    () => TokenStorageServiceImpl(),
+  );
 
   // Data Layer
   sl.registerLazySingleton<AuthRemoteDatasource>(
