@@ -1,3 +1,5 @@
+import 'package:business_app/features/product/presentation/pages/product_page.dart';
+import 'package:business_app/features/product/presentation/pages/store_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../features/auth/presentation/bloc/login_cubit.dart';
@@ -5,14 +7,40 @@ import '../../../features/auth/presentation/pages/splash_page.dart';
 import '../../../features/auth/presentation/pages/auth_landing_page.dart';
 import '../../../features/auth/presentation/pages/login_page.dart';
 import '../../../features/auth/presentation/pages/signup_page.dart';
+import '../../../features/product/domain/usecases/get_products_usecase.dart';
+import '../../../features/product/presentation/bloc/product_bloc.dart';
+import '../../../features/product/presentation/bloc/product_event.dart';
 import '../../di/injector.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/splash',
     routes: [
-      GoRoute(path: '/splash', builder: (_, __) => const SplashPage()),
       GoRoute(path: '/auth', builder: (_, __) => const AuthLandingPage()),
+      GoRoute(path: '/splash', builder: (_, __) => const SplashPage()),
+      GoRoute(
+        path: '/store',
+        name: 'store',
+        builder:
+            (context, state) => BlocProvider(
+              create:
+                  (_) =>
+                      ProductBloc(sl<GetProductsUseCase>())
+                        ..add(LoadInitialProducts()),
+              child: const StorePage(),
+            ),
+      ),
+
+      /// ✅ Ruta protegida: Checkout (requiere token)
+      // GoRoute(
+      //   path: '/checkout',
+      //   name: 'checkout',
+      //   builder: (context, state) => const CheckoutPage(),
+      //   redirect: (context, state) async {
+      //     final token = await sl<TokenStorageService>().getToken();
+      //     return (token == null || token.isEmpty) ? '/login' : null;
+      //   },
+      // ),
       GoRoute(
         path: '/login',
         builder:
