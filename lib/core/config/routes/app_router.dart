@@ -12,7 +12,7 @@ class AppRouter {
       GoRoute(path: '/splash', builder: (_, __) => const SplashPage()),
       GoRoute(path: '/auth', builder: (_, __) => const AuthLandingPage()),
       GoRoute(path: '/login', builder: (_, __) => const LoginPage()),
-      GoRoute(path: '/signup', builder: (_, __) => const SignUpPage()),
+      GoRoute(path: '/signup', builder: (_, __) => SignUpPage()),
     ],
   );
 }
