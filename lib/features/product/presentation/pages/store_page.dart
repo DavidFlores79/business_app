@@ -68,15 +68,15 @@ class _StorePageState extends State<StorePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _SectionHeader(title: 'Special Offers'),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
                         const SpecialOfferCard(),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 10),
                         _SectionHeader(title: 'Categories'),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
                         CategoryList(categories: _categories),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 10),
                         _SectionHeader(title: 'Featured Products'),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
                         ProductList(products: state.products),
                       ],
                     ),
@@ -402,7 +402,7 @@ class ProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 240,
+      height: 260,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -520,13 +520,39 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    '\$${product.price}',
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        '\$${product.price}',
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.amber[800],
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            // Acción al presionar el botón
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('${product.name} added to cart'),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
