@@ -1,12 +1,14 @@
-import 'package:business_app/features/product/data/models/product_model.dart';
+import 'package:business_app/features/product/domain/entities/category_entity.dart';
 import 'package:business_app/features/product/domain/entities/product_entity.dart';
+import 'package:business_app/features/product/presentation/bloc/categories/category_bloc.dart';
+import 'package:business_app/features/product/presentation/bloc/categories/category_event.dart';
+import 'package:business_app/features/product/presentation/bloc/categories/category_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/product_bloc.dart';
-import '../bloc/product_event.dart';
-import '../bloc/product_state.dart';
+import '../bloc/products/product_bloc.dart';
+import '../bloc/products/product_event.dart';
+import '../bloc/products/product_state.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({super.key});
@@ -20,18 +22,14 @@ class _StorePageState extends State<StorePage> {
 
   // --- DATOS DE EJEMPLO (MOCK DATA) ---
   // Reemplaza esto con los datos de tu API/Bloc
-  final List<CategoryModel> _categories = [
-    CategoryModel(name: 'Cup Cake', icon: Icons.cake),
-    CategoryModel(name: 'Cookies', icon: Icons.cookie),
-    CategoryModel(name: 'Donuts', icon: Icons.donut_large),
-    CategoryModel(name: 'Breads', icon: Icons.breakfast_dining),
-  ];
+  List<CategoryEntity> categories = [];
   late final ScrollController _controller;
 
   @override
   void initState() {
     super.initState();
     context.read<ProductBloc>().add(LoadInitialProducts());
+    context.read<CategoryBloc>().add(LoadInitialCategories());
 
     _controller =
         ScrollController()..addListener(() {
@@ -51,43 +49,58 @@ class _StorePageState extends State<StorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ProductBloc, ProductState>(
-        builder: (context, state) {
-          if (state is ProductLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ProductError) {
-            return Center(child: Text(state.message));
-          } else if (state is ProductLoaded) {
-            return CustomScrollView(
-              slivers: [
-                _HomeHeader(),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _SectionHeader(title: 'Special Offers'),
-                        const SizedBox(height: 10),
-                        const SpecialOfferCard(),
-                        const SizedBox(height: 10),
-                        _SectionHeader(title: 'Categories'),
-                        const SizedBox(height: 10),
-                        CategoryList(categories: _categories),
-                        const SizedBox(height: 10),
-                        _SectionHeader(title: 'Featured Products'),
-                        const SizedBox(height: 10),
-                        ProductList(products: state.products),
-                      ],
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<CategoryBloc, CategoryState>(
+            listener: (context, state) {
+              if (state is CategoryLoading) {
+                // return const Center(child: CircularProgressIndicator());
+              } else if (state is CategoryError) {
+                // return Center(child: Text(state.message));
+              } else if (state is CategoryLoaded) {
+                categories = state.categories;
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state is ProductLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ProductError) {
+              return Center(child: Text(state.message));
+            } else if (state is ProductLoaded) {
+              return CustomScrollView(
+                slivers: [
+                  _HomeHeader(),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _SectionHeader(title: 'Special Offers'),
+                          const SizedBox(height: 10),
+                          const SpecialOfferCard(),
+                          const SizedBox(height: 10),
+                          _SectionHeader(title: 'Categories'),
+                          const SizedBox(height: 10),
+                          CategoryList(categories: categories),
+                          const SizedBox(height: 10),
+                          _SectionHeader(title: 'Featured Products'),
+                          const SizedBox(height: 10),
+                          ProductList(products: state.products),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          }
+                ],
+              );
+            }
 
-          return const SizedBox.shrink();
-        },
+            return const SizedBox.shrink();
+          },
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -334,15 +347,15 @@ class SpecialOfferCard extends StatelessWidget {
 }
 
 // Asumo que tienes un modelo similar a este
-class CategoryModel {
-  final String? name;
-  final IconData icon;
+// class CategoryModel {
+//   final String? name;
+//   final IconData icon;
 
-  CategoryModel({required this.name, required this.icon});
-}
+//   CategoryModel({required this.name, required this.icon});
+// }
 
 class CategoryList extends StatelessWidget {
-  final List<CategoryModel> categories;
+  final List<CategoryEntity> categories;
   const CategoryList({super.key, required this.categories});
 
   @override
@@ -371,19 +384,17 @@ class CategoryList extends StatelessWidget {
                   CircleAvatar(
                     radius: 35,
                     backgroundColor: Colors.grey[200],
-                    child: Icon(
-                      category.icon,
-                      size: 30,
-                      color: Colors.grey[800],
-                    ),
+                    backgroundImage: NetworkImage(category.image),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    category.name ?? 'No name',
+                    category.name,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

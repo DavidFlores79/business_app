@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            context.go('/home');
+            context.go('/');
           } else if (state is LoginFailure) {
             ScaffoldMessenger.of(
               context,

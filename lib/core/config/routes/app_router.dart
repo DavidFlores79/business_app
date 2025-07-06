@@ -1,4 +1,5 @@
 import 'package:business_app/features/product/presentation/pages/store_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../features/auth/presentation/bloc/login_cubit.dart';
@@ -6,13 +7,13 @@ import '../../../features/auth/presentation/pages/splash_page.dart';
 import '../../../features/auth/presentation/pages/auth_landing_page.dart';
 import '../../../features/auth/presentation/pages/login_page.dart';
 import '../../../features/auth/presentation/pages/signup_page.dart';
-import '../../../features/product/domain/usecases/get_products_usecase.dart';
-import '../../../features/product/presentation/bloc/product_bloc.dart';
-import '../../../features/product/presentation/bloc/product_event.dart';
 import '../../di/injector.dart';
 
 class AppRouter {
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
   static final GoRouter router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
     routes: [
       GoRoute(path: '/auth', builder: (_, __) => const AuthLandingPage()),
@@ -20,14 +21,7 @@ class AppRouter {
       GoRoute(
         path: '/store',
         name: 'store',
-        builder:
-            (context, state) => BlocProvider(
-              create:
-                  (_) =>
-                      ProductBloc(sl<GetProductsUseCase>())
-                        ..add(LoadInitialProducts()),
-              child: const StorePage(),
-            ),
+        builder: (context, state) => const StorePage(),
       ),
 
       /// ✅ Ruta protegida: Checkout (requiere token)
@@ -52,4 +46,9 @@ class AppRouter {
       GoRoute(path: '/signup', builder: (_, __) => SignUpPage()),
     ],
   );
+
+  // Método para redirección programática desde el interceptor
+  static void redirectToAuth() {
+    _rootNavigatorKey.currentContext?.go('/auth');
+  }
 }

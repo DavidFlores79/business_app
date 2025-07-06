@@ -1,7 +1,10 @@
+import 'package:business_app/core/errors/failures.dart';
+import 'package:business_app/features/product/domain/entities/category_entity.dart';
 import 'package:business_app/features/product/domain/entities/product_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/rendering.dart';
 
+import '../../../../core/errors/failure_maper.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../datasources/product_remote_datasource.dart';
 
@@ -11,7 +14,7 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl(this.datasource);
 
   @override
-  Future<Either<String, List<ProductEntity>>> getProducts(
+  Future<Either<Failure, List<ProductEntity>>> getProducts(
     int page,
     int pageSize,
   ) async {
@@ -37,8 +40,37 @@ class ProductRepositoryImpl implements ProductRepository {
             )
             .toList(),
       );
-    } catch (e) {
-      return Left("Error cargando productos $e");
+    } on Exception catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CategoryEntity>>> getCategories(
+    int page,
+    int pageSize,
+  ) async {
+    try {
+      final categories = await datasource.getCategories(
+        page: page,
+        pageSize: pageSize,
+      );
+
+      debugPrint('Categories fetched: ${categories.length}');
+
+      return Right(
+        categories
+            .map(
+              (category) => CategoryEntity(
+                id: category.id ?? '',
+                name: category.name ?? '',
+                image: category.image ?? '',
+              ),
+            )
+            .toList(),
+      );
+    } on Exception catch (e) {
+      return Left(mapExceptionToFailure(e));
     }
   }
 }

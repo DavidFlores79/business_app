@@ -1,3 +1,4 @@
+import 'package:business_app/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 
 import '../entities/product_entity.dart';
@@ -8,7 +9,7 @@ class GetProductsUseCase {
 
   GetProductsUseCase(this.repository);
 
-  Future<Either<String, List<ProductEntity>>> call(int page, int pageSize) {
+  Future<Either<Failure, List<ProductEntity>>> call(int page, int pageSize) {
     return repository.getProducts(page, pageSize);
   }
 }
