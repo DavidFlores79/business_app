@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   final String? productId; // 👈 Puede ser nulo
 
   const ProductDetailPage({super.key, this.productId});
 
   @override
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+    int maxLines = 3;
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           // 🔝 AppBar con imagen colapsable
           SliverAppBar(
+            automaticallyImplyLeading: false,
             pinned: true,
-            expandedHeight: 300,
+            expandedHeight: size.height * 0.5,
             backgroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
@@ -28,16 +36,7 @@ class ProductDetailPage extends StatelessWidget {
                     left: 16,
                     child: _circleButton(
                       icon: Icons.arrow_back_ios_new,
-                      onTap: () {
-                        if (context.canPop()) {
-                          // ← Verifica si puede retroceder
-                          context.pop();
-                        } else {
-                          context.go(
-                            '/store',
-                          ); // ← Si no hay historial, redirige a una ruta por defecto
-                        }
-                      },
+                      onTap: () => context.pop(),
                     ),
                   ),
                   Positioned(
@@ -79,7 +78,6 @@ class ProductDetailPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-
                   Text(
                     'Chocolate Cake',
                     style: theme.textTheme.headlineSmall?.copyWith(
@@ -134,18 +132,23 @@ class ProductDetailPage extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
+                    'Lorem ipsum dolor sit amet consectetur. Auctor non bibendum est eu. '
+                    'Lorem ipsum dolor sit amet consectetur. Auctor non bibendum est eu. '
                     'Lorem ipsum dolor sit amet consectetur. Auctor non bibendum est eu. '
                     'Fusce tempor aliquet quis sed pharetra cras pharetra faucibus tellus',
-                    style: TextStyle(fontSize: 16),
-                    maxLines: 3,
+                    style: const TextStyle(fontSize: 16),
+                    maxLines: maxLines,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  TextButton(onPressed: () {}, child: const Text('Read More')),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {});
+                    },
+                    child: const Text('Read More'),
+                  ),
                   const Divider(height: 32),
-                  const SizedBox(
-                    height: 100,
-                  ), // Padding para evitar tapado por el footer
+
                   Container(
                     padding: const EdgeInsets.symmetric(
                       // horizontal: 20,
@@ -212,13 +215,13 @@ class ProductDetailPage extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: bgColor ?? Colors.white,
+          color: bgColor ?? const Color.fromARGB(255, 230, 191, 195),
           shape: BoxShape.circle,
           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
         ),
-        child: Icon(icon, size: 20),
+        child: Icon(icon, size: 25),
       ),
     );
   }
