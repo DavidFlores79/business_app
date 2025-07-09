@@ -47,3 +47,4 @@ app.*.map.json
 
 # Hide create_feature.py
 create_feature.py
+.config/
