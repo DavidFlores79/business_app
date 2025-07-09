@@ -1,4 +1,5 @@
 import 'package:business_app/features/product/presentation/pages/product_detail_page.dart';
+import 'package:business_app/features/product/presentation/pages/search_page.dart';
 import 'package:business_app/features/product/presentation/pages/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,11 @@ class AppRouter {
         path: '/store',
         name: 'store',
         builder: (context, state) => const StorePage(),
+      ),
+      GoRoute(
+        path: '/search',
+        name: 'search',
+        builder: (context, state) => const SearchPage(),
       ),
       GoRoute(
         path: '/product-detail/:productId', // 👈 Recibe un parámetro

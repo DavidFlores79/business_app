@@ -199,7 +199,9 @@ class _HomeHeader extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
-                      onTap: () {},
+                      onTap: () {
+                        context.push('/search');
+                      },
                       decoration: InputDecoration(
                         hintText: 'Search',
                         hintStyle: TextStyle(color: Colors.grey[600]),

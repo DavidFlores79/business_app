@@ -135,20 +135,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Text(
                     'Lorem ipsum dolor sit amet consectetur. Auctor non bibendum est eu. '
                     'Lorem ipsum dolor sit amet consectetur. Auctor non bibendum est eu. '
-                    'Lorem ipsum dolor sit amet consectetur. Auctor non bibendum est eu. '
                     'Fusce tempor aliquet quis sed pharetra cras pharetra faucibus tellus',
                     style: const TextStyle(fontSize: 16),
                     maxLines: maxLines,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {});
-                    },
-                    child: const Text('Read More'),
-                  ),
-                  const Divider(height: 32),
 
+                  // TextButton(
+                  //   onPressed: () {
+                  //     setState(() {});
+                  //   },
+                  //   child: const Text('Read More'),
+                  // ),
+                  // const Divider(height: 32),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       // horizontal: 20,
