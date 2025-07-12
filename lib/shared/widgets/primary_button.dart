@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/app_color.dart';
+
 class PrimaryButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
@@ -18,9 +20,9 @@ class PrimaryButton extends StatelessWidget {
     required this.onTap,
     this.expand = false,
     this.isLoading = false,
-    this.backgroundColor = Colors.yellow,
-    this.textColor = Colors.black,
-    this.borderColor = Colors.black,
+    this.backgroundColor = AppColors.primary,
+    this.textColor = AppColors.gray800,
+    this.borderColor = AppColors.gray800,
     this.icon,
     this.image,
   });

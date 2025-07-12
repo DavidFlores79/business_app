@@ -7,9 +7,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../bloc/products/product_bloc.dart';
-import '../bloc/products/product_event.dart';
-import '../bloc/products/product_state.dart';
+import '../../../product/presentation/bloc/products/product_bloc.dart';
+import '../../../product/presentation/bloc/products/product_event.dart';
+import '../../../product/presentation/bloc/products/product_state.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({super.key});
@@ -199,6 +199,7 @@ class _HomeHeader extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
+                      readOnly: true,
                       onTap: () {
                         context.push('/search');
                       },

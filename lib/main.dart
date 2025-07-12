@@ -6,6 +6,7 @@ import 'features/product/presentation/bloc/categories/category_bloc.dart';
 import 'features/product/presentation/bloc/categories/category_event.dart';
 import 'features/product/presentation/bloc/products/product_bloc.dart';
 import 'features/product/presentation/bloc/products/product_event.dart';
+import 'theme/app_color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +29,32 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        title: 'Flutter Clean App',
+        title: 'Business App',
         debugShowCheckedModeBanner: false,
         routerConfig: AppRouter.router,
+        theme: ThemeData(
+          fontFamily: 'Roboto',
+          colorScheme: ColorScheme(
+            brightness: Brightness.light,
+            primary: AppColors.primary,
+            onPrimary: Colors.white,
+            primaryContainer: AppColors.primaryLight,
+            onPrimaryContainer: AppColors.primaryDark,
+            secondary: AppColors.secondary,
+            onSecondary: Colors.black,
+            secondaryContainer: AppColors.secondaryLight,
+            onSecondaryContainer: AppColors.secondaryDark,
+            tertiary: AppColors.tertiary,
+            onTertiary: Colors.black,
+            tertiaryContainer: AppColors.tertiaryLight,
+            onTertiaryContainer: AppColors.tertiaryDark,
+            surface: AppColors.surface,
+            onSurface: AppColors.onSurface,
+            error: AppColors.error,
+            onError: AppColors.onError,
+          ),
+          useMaterial3: true,
+        ),
       ),
     );
   }

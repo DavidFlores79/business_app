@@ -85,48 +85,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       fontSize: 26,
                     ),
                   ),
-                  const SizedBox(height: 16),
-
-                  // Vendedor
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 24,
-                        backgroundImage: AssetImage('assets/images/woman.png'),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Jenny',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            'Cook',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      _circleButton(
-                        icon: Icons.chat_bubble_outline,
-                        onTap: () {},
-                        bgColor: Colors.orange.shade100,
-                      ),
-                      const SizedBox(width: 12),
-                      _circleButton(
-                        icon: Icons.phone_outlined,
-                        onTap: () {},
-                        bgColor: Colors.orange.shade100,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-
+                  const SizedBox(height: 35),
                   const Text(
                     'Description',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -141,13 +100,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     overflow: TextOverflow.ellipsis,
                   ),
 
-                  // TextButton(
-                  //   onPressed: () {
-                  //     setState(() {});
-                  //   },
-                  //   child: const Text('Read More'),
-                  // ),
-                  // const Divider(height: 32),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       // horizontal: 20,

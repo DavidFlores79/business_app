@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../shared/widgets/primary_button.dart';
+import '../../../../theme/app_color.dart';
 
 class AuthLandingPage extends StatelessWidget {
   const AuthLandingPage({super.key});
@@ -9,7 +10,7 @@ class AuthLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow,
+      backgroundColor: AppColors.primary,
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
